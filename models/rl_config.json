@@ -1,0 +1,8 @@
+{
+  "mission_success_threshold": 0.55,
+  "self_team_multiplier": 1.1075338758643494,
+  "good_known_evil_multiplier": 0.027179308843086638,
+  "percival_double_candidate_multiplier": 0.46400577631845347,
+  "evil_known_evil_multiplier": 1.0969935315079666,
+  "assassin_min_weight": 0.17010067862597336
+}

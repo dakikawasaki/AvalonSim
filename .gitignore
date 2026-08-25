@@ -1,0 +1,17 @@
+# Python privremeni fajlovi
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtualna okruženja
+venv/
+env/
+.venv/
+
+# Podešavanja editora
+.idea/
+
+# OS fajlovi
+.DS_Store
+Thumbs.db
