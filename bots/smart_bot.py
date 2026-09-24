@@ -8,7 +8,7 @@ GOOD_ROLES = {"Merlin", "Percival", "Loyal Servant"}
 
 
 class SmartBot(BaseBot):
-    """Simple Avalon bot that uses role knowledge and public mission history."""
+    """Avalon bot koji koristi dostupne informacije za dedukciju"""
 
     def propose_team(self, observation: Dict[str, Any], team_size: int) -> List[int]:
         if self._is_evil(observation):

@@ -428,6 +428,11 @@ def main() -> None:
         "mission": args.output_dir / f"mission_{args.prefix}.csv",
         "assassinate": args.output_dir / f"assassinate_{args.prefix}.csv",
     }
+    print("OUTPUT TEAM:", repr(outputs["team"]))
+    print("ABSOLUTE PATH:", outputs["team"].resolve())
+    print("PARENT EXISTS:", outputs["team"].parent.exists())
+
+    datasets.team.write_csv(outputs["team"])
     datasets.team.write_csv(outputs["team"])
     datasets.vote.write_csv(outputs["vote"])
     datasets.mission.write_csv(outputs["mission"])

@@ -19,6 +19,25 @@ class TorchMLP(nn.Module):
     def forward(self, features):
         return self.network(features).squeeze(-1)
 
+class AssassinDQN(nn.Module):
+    def __init__(
+        self,
+        input_size: int = 87,
+        hidden_size: int = 64,
+        num_actions: int = 7,
+    ):
+        super().__init__()
+        self.network = nn.Sequential(
+            nn.Linear(input_size, hidden_size),
+            nn.ReLU(),
+            nn.Linear(hidden_size, hidden_size),
+            nn.ReLU(),
+            nn.Linear(hidden_size, num_actions),
+        )
+
+    def forward(self, features):
+        return self.network(features)
+
 
 class TorchActionModel:
     def __init__(self, network: TorchMLP):

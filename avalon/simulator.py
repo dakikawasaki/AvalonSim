@@ -16,7 +16,7 @@ class AvalonSimulator:
         team_callback: Optional[Callable[[Dict, int, List[int]], None]] = None,
         vote_callback: Optional[Callable[[Dict, List[int], bool], None]] = None,
         mission_callback: Optional[Callable[[Dict, List[int], bool], None]] = None,
-        assassinate_callback: Optional[Callable[[Dict, List[int], int], None]] = None,
+        assassinate_callback: Optional[Callable[[Dict, List[int], int], Optional[int]]] = None,
     ):
         self.bot_cls = bot_cls
         self.verbose = verbose
@@ -147,7 +147,7 @@ class AvalonSimulator:
 
     def is_team_approved(self, votes: List[bool]) -> bool:
         approve_count = sum(votes)
-        return approve_count > len(votes) // 2
+        return approve_count*2 >= len(votes)
 
     def run_mission(self, state: GameState, team: List[int]) -> (bool, int):
         mission_votes = []
@@ -204,8 +204,15 @@ class AvalonSimulator:
         observation = self.get_player_observation(state, assassin)
         all_player_ids = [p.player_id for p in state.players]
         target_id = assassin.bot.assassinate(observation, all_player_ids)
+
         if self.assassinate_callback is not None:
-            self.assassinate_callback(observation, all_player_ids, target_id)
+            callback_target = self.assassinate_callback(
+                observation,
+                all_player_ids,
+                target_id,
+            )
+            if callback_target is not None:
+                target_id = callback_target
 
         target_player = state.players[target_id]
 

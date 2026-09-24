@@ -12,6 +12,9 @@ env/
 # Podešavanja editora
 .idea/
 
+data/*.csv
+external/*.zip
+
 # OS fajlovi
 .DS_Store
 Thumbs.db

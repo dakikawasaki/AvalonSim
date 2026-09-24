@@ -41,6 +41,15 @@ def build_assassination_features(
         ],
     )
 
+def build_assassination_state(
+    observation: Dict[str, Any],
+) -> List[float]:
+    """Convert the current game state into DQN state features."""
+    return _build_decision_features(
+        observation,
+        [],
+        [],
+    )
 
 def _build_decision_features(
     observation: Dict[str, Any],

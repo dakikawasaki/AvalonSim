@@ -11,14 +11,13 @@ from ml.features import (
     build_team_features,
     build_vote_features,
 )
-from ml.models import VoteMLP
 from ml.torch_models import TorchActionModel
 
 
-DEFAULT_TEAM_MODEL_PATH = Path("models/team_model.pt")
-DEFAULT_VOTE_MODEL_PATH = Path("models/vote_model.pt")
-DEFAULT_MISSION_MODEL_PATH = Path("models/mission_model.pt")
-DEFAULT_ASSASSINATE_MODEL_PATH = Path("models/assassinate_model.pt")
+DEFAULT_TEAM_MODEL_PATH = Path("models/team_human_model.pt")
+DEFAULT_VOTE_MODEL_PATH = Path("models/vote_human_model.pt")
+DEFAULT_MISSION_MODEL_PATH = Path("models/mission_human_model.pt")
+DEFAULT_ASSASSINATE_MODEL_PATH = Path("models/assassinate_human_model.pt")
 DEFAULT_RL_CONFIG_PATH = Path("models/rl_config.json")
 
 
@@ -141,24 +140,18 @@ class MLBot(SmartBot):
 
         return score
 
-    def _get_model(self, name: str, path: Path) -> VoteMLP:
+    def _get_model(self, name: str, path: Path) -> TorchActionModel:
         cache_key = (name, str(path))
-        if cache_key not in MLBot._models:
-            model_path = path
-            if not model_path.exists() and path.suffix == ".pt":
-                model_path = path.with_suffix(".json")
-                cache_key = (name, str(model_path))
 
-            if not model_path.exists():
+        if cache_key not in MLBot._models:
+            if not path.exists():
                 raise FileNotFoundError(
                     f"{name.title()} model not found at {path}. "
                     "Run: python generate_human_log_data.py, then python train_all_actions.py"
                 )
 
-            if model_path.suffix == ".pt":
-                MLBot._models[cache_key] = TorchActionModel.load(model_path)
-            else:
-                MLBot._models[cache_key] = VoteMLP.load(model_path)
+            MLBot._models[cache_key] = TorchActionModel.load(path)
+
         return MLBot._models[cache_key]
 
     @classmethod
